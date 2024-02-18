@@ -1,5 +1,3 @@
-# magazine.py
-
 class Magazine:
     all_magazines = []
 
@@ -45,7 +43,12 @@ class Magazine:
         self.additional_info[key] = value
 
     def contributors(self):
-        return list(set(article.author for article in self.published_articles))
+        contributors_list = []
+        for article in self.published_articles:
+            author = article.author
+            if author not in contributors_list:
+                contributors_list.append(author)
+        return contributors_list
 
     def __str__(self):
         return f"Magazine: {self._name}, Category: {self._category}, Additional Info: {self.additional_info}"
