@@ -1,3 +1,12 @@
+class Author:
+    def __init__(self, name):
+        self.name = name
+
+class Article:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+
 class Magazine:
     all_magazines = []
 
@@ -24,31 +33,17 @@ class Magazine:
     def find_by_name(cls, name):
         return next((magazine for magazine in cls.all_magazines if magazine.name == name), None)
 
-    @classmethod
-    def article_titles(cls, magazine_name):
-        magazine = cls.find_by_name(magazine_name)
-        if magazine:
-            return [article.title for article in magazine.published_articles]
-        else:
-            return []
+    def add_article(self, article):
+        self.published_articles.append(article)
 
-    def contributing_authors(self):
-        authors_count = {}
-        for article in self.published_articles:
-            author = article.author
-            authors_count[author] = authors_count.get(author, 0) + 1
-        return [author for author, count in authors_count.items() if count > 2]
-
-    def update_info(self, key, value):
-        self.additional_info[key] = value
+    def article_titles(self):
+        return [article.title for article in self.published_articles]
 
     def contributors(self):
-        contributors_list = []
+        contributors = set()
         for article in self.published_articles:
-            author = article.author
-            if author not in contributors_list:
-                contributors_list.append(author)
-        return contributors_list
+            contributors.add(article.author)
+        return list(contributors)
 
     def __str__(self):
         return f"Magazine: {self._name}, Category: {self._category}, Additional Info: {self.additional_info}"
